@@ -1,0 +1,23 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name _;
+
+    root /var/www/my-web/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Dùng trang lỗi tùy biến thay cho trang 404 mặc định của Nginx
+    error_page 404 /404.html;
+
+    # internal: chỉ Nginx được phục vụ tệp này (qua error_page),
+    # truy cập trực tiếp từ trình duyệt/curl sẽ nhận 404
+    location = /404.html {
+        root /var/www/my-web/html;
+        internal;
+    }
+}
